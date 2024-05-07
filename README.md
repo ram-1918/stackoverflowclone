@@ -31,7 +31,7 @@ Users: {
 
 Question: {
     Info: {
-        title, body, userid(F), is_answered, tags(F+M), comments(F+M)
+        title, body, user_id(F), is_answered, tags(F+M), comments(F+M)
     },
     Meta: {
         score, creation_date, last_activity, is_favorite, is_edited,
@@ -41,7 +41,7 @@ Question: {
 
 Answer: {
     Info: {
-        title, body, userid(F), is_accepted, tags(F+M), comments(F+M)
+        title, body, user_id(F), is_accepted, tags(F+M), comments(F+M)
     },
     Meta: {
         score, creation_date, last_activity, 
@@ -50,14 +50,18 @@ Answer: {
 }
 
 Post: {
-    post_type(question/answer), post_id(F), userid(F)
+    post_type(question/answer), post_id, user_id(F)
 }
 
 Comment: {
     Info: {
-        body, userid(F), post_id(F), is_edited, edited_by, score, 
-        reply_to_user
+        body, user_id(F), post_id(F), score, reply_to_user,
+        is_edited, edited_by
     }
+}
+
+Votes: {
+    user_id(F), post_id(F), vote_type(up/down vote)
 }
 
 tags: {

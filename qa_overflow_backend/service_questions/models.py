@@ -18,11 +18,11 @@ class Questions(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_activity = models.DateTimeField(auto_now=True)
     
+    viewers = models.TextField(default='')
     favorite_count = models.IntegerField(default=0)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
-    view_count = models.IntegerField(default=0)
-    answer_count = models.IntegerField(default=0)
+    # answer_count = models.IntegerField(default=0)
 
     class Meta:
         verbose_name_plural = "Questions"
