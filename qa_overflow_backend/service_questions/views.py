@@ -5,17 +5,29 @@ from rest_framework.decorators import api_view
 from rest_framework import generics
 from rest_framework.response import Response
 
+
 from .models import Questions
-from .serializers import QuestionsSerializer
+from .serializers import ListQuestionSerializer, PostQuestionSerializer
+
+from services.pagination import CustomPagination
 
 class QuestionsAPIView(generics.ListCreateAPIView):
     queryset = Questions.objects.all()
-    serializer_class = QuestionsSerializer
+    pagination_class = CustomPagination
 
-    def get(self, request):
-        serializer = QuestionsSerializer(self.get_queryset(), many=True)
-        result = {
-            "count": len(serializer.data),
-            "data": serializer.data
-        }
-        return Response(result)
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return PostQuestionSerializer
+        return ListQuestionSerializer
+
+    def get_queryset(self):
+        return self.queryset.order_by('-title')
+
+class RetrieveQuestionAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Questions.objects.all()
+    pagination_class = CustomPagination
+
+    def get_serializer_class(self):
+        if self.request.method in ['PATCH', 'PUT']:
+            return PostQuestionSerializer
+        return ListQuestionSerializer

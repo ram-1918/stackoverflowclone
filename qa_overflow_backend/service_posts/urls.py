@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import test
+from .views import TagAPIView
 
 urlpatterns = [
-    path('', test),
+    path('tags', TagAPIView.as_view()),
 ]

@@ -17,3 +17,9 @@ class ListUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = ('displayname', 'profileimage', 'location', 'websiteurl')
+
+    
+class RetrieveUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = '__all__'

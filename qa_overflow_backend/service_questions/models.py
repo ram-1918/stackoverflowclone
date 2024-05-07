@@ -8,15 +8,19 @@ class Questions(models.Model):
     """
     Considering edited_by feature for enhancements
     """
-    userid = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tags)
 
     title = models.TextField(blank=True, unique=True)
     body = models.TextField(blank=True)
+    
     is_answered = models.BooleanField(default=False)
-    is_favorite = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now=True)
-    last_activity = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_activity = models.DateTimeField(auto_now=True)
+    
+    favorite_count = models.IntegerField(default=0)
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
     view_count = models.IntegerField(default=0)
     answer_count = models.IntegerField(default=0)
 

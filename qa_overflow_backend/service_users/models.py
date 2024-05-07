@@ -32,7 +32,6 @@ class Users(AbstractBaseUser):
     
     ** profile image should be processed before it is saved
     """
-    roles = [('Registered', 'registed'), ('Anon', 'anon')]
     last_login = False
 
     USERNAME_FIELD = 'email'
@@ -40,7 +39,6 @@ class Users(AbstractBaseUser):
     
     objects = UserManager()
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(max_length=55, unique=True, blank=True, db_index=True)
     password = models.CharField(max_length=255, blank=True)
     firstname = models.CharField(max_length=25,blank=True)
@@ -50,7 +48,6 @@ class Users(AbstractBaseUser):
     websiteurl = models.URLField(blank=True, null=True)
     profileimage = models.ImageField(upload_to='./profile_images/',blank=True)
 
-    type = models.CharField(max_length=10, choices=roles, default='anon')  #
     is_employee = models.BooleanField(default=False)    #
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now=True)

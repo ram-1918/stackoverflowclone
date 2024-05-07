@@ -3,7 +3,8 @@ from rest_framework import generics
 from rest_framework.response import Response
 
 from .models import Users
-from .serializers import PostUserSerializer, ListUserSerializer
+from .serializers import PostUserSerializer, ListUserSerializer, RetrieveUserSerializer
+from services.pagination import CustomPagination
 
 """
 Authenticated APIs: Posting questing, Answering to a question, Commenting to an answer, Up/down voting answers
@@ -14,6 +15,7 @@ No need for anonymous ???
 
 class UsersAPIView(generics.ListCreateAPIView):
     queryset = Users.objects.all()
+    pagination_class = CustomPagination
 
     # Override get_serializer_class method to dynamically 
     # return serializer class based on request method
@@ -21,6 +23,10 @@ class UsersAPIView(generics.ListCreateAPIView):
         if self.request.method == 'POST':
             return PostUserSerializer
         return ListUserSerializer
+
+class SingleUserAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Users.objects.all()
+    serializer_class = RetrieveUserSerializer
 
 @api_view(['POST'])
 def LoginAPIView(request):
