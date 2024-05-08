@@ -15,13 +15,20 @@ class QuestionsAPIView(generics.ListCreateAPIView):
     queryset = Questions.objects.all()
     pagination_class = CustomPagination
 
+
+    def get_queryset(self):
+        # print("get_queryset")
+        return self.queryset.order_by('-title')
+
+    # def paginate_queryset(self, queryset):
+    #     print("paginate_queryset", len(queryset))
+    #     return super().paginate_queryset(queryset)
+    
     def get_serializer_class(self):
+        # print("get_serializer_class")
         if self.request.method == 'POST':
             return PostQuestionSerializer
         return ListQuestionSerializer
-
-    def get_queryset(self):
-        return self.queryset.order_by('-title')
 
 class RetrieveQuestionAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Questions.objects.all()

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Questions
+from service_answers.models import Answers
 
 from services.utils import convert_timestamp_into_epoch, epoch_to_readable
 
@@ -19,12 +20,13 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     tags = serializers.StringRelatedField(many=True, read_only=True)
     viewers = serializers.SerializerMethodField()
     score = serializers.SerializerMethodField()
+    answer_count = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
     last_activity = serializers.SerializerMethodField()
 
     class Meta:
         model = Questions
-        fields = '__all__'
+        exclude = ('upvotes', 'downvotes')
 
     def get_created_at(self, obj):
         epoch = convert_timestamp_into_epoch(str(obj.created_at))
@@ -35,7 +37,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         return epoch_to_readable(epoch)
     
     def get_viewers(self, obj):
-        # Further processing is required for manipulating 
+        # Further processing is required for manipulating - 
         # viewers str in the frontend
         lst_str = obj.viewers
         lst = lst_str.split(',')
@@ -43,4 +45,8 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     
     def get_score(self, obj):
         return obj.upvotes - obj.downvotes
+    
+    def get_answer_count(self, obj):
+        answer_count = Answers.objects.filter(question_id=obj).count()
+        return answer_count
     
