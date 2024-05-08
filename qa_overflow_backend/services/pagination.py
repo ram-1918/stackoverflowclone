@@ -9,7 +9,7 @@ class CustomPagination(pagination.PageNumberPagination):
         possible_num_of_pages = math.ceil(size_of_data/self.page_size)
         has_more = False if page_num == possible_num_of_pages else True
     """
-    page_size = 1
+    page_size = 10
     max_page_size = 50
     page_size_query_param = "page_size"
     page_query_param = "page_num"

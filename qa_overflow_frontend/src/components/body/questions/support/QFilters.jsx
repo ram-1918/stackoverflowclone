@@ -1,11 +1,16 @@
 // import { faFilter } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { useRecoilState } from "recoil";
+import { questionsData } from "../../../../recoil_state/state";
+
 const QFilters = () => {
-    const count = '2,453,345'
+    const questions = useRecoilState(questionsData);    // Retrieved from state
+    const count = questions.length;
+
     return (
         <div className="p-2 w-full flex flex-row justify-between items-center">
-            <DisplayCount count={count} />
+            <DisplayCount count={count} title={count === 1 ? 'question': 'questions'} />
             <FilterSet />
         </div>
     );
@@ -13,13 +18,21 @@ const QFilters = () => {
 
 export default QFilters;
 
-// const FilterIcon = () => <FontAwesomeIcon icon={faFilter} />
 
-const DisplayCount = ({count}) => (
-    <span className="text-normal after:content-['questions'] after:px-1">
-        {count}
+const DisplayCount = ({count, title}) => (
+    <span className={`text-lg font-normal`}>
+        {count} {title}
     </span>
 );
+
+const FilterSet = () => {
+    return (
+        <div className="flex flex-row justify-start items-center space-x-2">
+            <Filters1 />
+            {/* <Filters2 /> */}
+        </div>
+    );
+};
 
 const FilterItem = ({text, active}) => <span style={{backgroundColor:active ? "lightgray": ""}} className="px-3 py-1 rounded-md cursor-pointer hover:bg-gray-200">{text}</span>
 
@@ -30,21 +43,6 @@ const Filters1 = () => {
             <FilterItem text="Active" />
             <FilterItem text="Closed" />
             <FilterItem text="Unanswered" />
-        </div>
-    );
-};
-
-// const Filters2 = () => {
-//     return (
-//         <button>{<FilterIcon />} Filters</button>
-//     )
-// }
-
-const FilterSet = () => {
-    return (
-        <div className="flex flex-row justify-start items-center space-x-2">
-            <Filters1 />
-            {/* <Filters2 /> */}
         </div>
     );
 };

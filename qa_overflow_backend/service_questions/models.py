@@ -18,7 +18,7 @@ class Questions(models.Model):
     
     is_answered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    last_activity = models.CharField(max_length=100)
+    last_activity = models.CharField(max_length=100, blank=True, default=timezone.now())
     
     viewers = models.TextField(default='')
     favorite_count = models.IntegerField(default=0)

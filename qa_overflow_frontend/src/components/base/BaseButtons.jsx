@@ -1,4 +1,4 @@
-export default function BaseButton({content, bg, border, text, width, padding}) {
+export default function BaseButton({content, bg, border, text, width, padding, ...props}) {
     // Dynamic Styling overrides the style defined in the classname
     const dynamicStyle = {
         backgroundColor:bg, 
@@ -9,6 +9,7 @@ export default function BaseButton({content, bg, border, text, width, padding}) 
     };
     return (
         <button 
+        {...props}
         style={dynamicStyle}
         className="px-2 p-1 border rounded-lg hover:opacity-70 text-sm"
         >{content}</button>

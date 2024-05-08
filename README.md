@@ -67,3 +67,16 @@ Votes: {
 tags: {
     name, count(to find most used tag and other purposes)
 }
+
+
+### React
+State management: Recoil library
+Recoil:
+1. Atom(): to create state value
+2. selector(): represents a piece derived state
+3. useRecoilState(): to create a writable state
+4. useRecoilValue(): to create read-only selector value
+5. Async can be used with selector()
+6. React.Suspense with a fallback is used to handle pending data
+7. Implement error handling by throwing response.error in selector()
+8. SelectorFamily(): to implement queries with parameters

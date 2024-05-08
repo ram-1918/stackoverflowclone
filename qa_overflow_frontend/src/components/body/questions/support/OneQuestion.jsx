@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const OneQuestion = ({que}) => {
     return (
         <div className="py-2 w-full flex flex-row border-b border-gray-200">
-            <MetaData />
+            <MetaData {...que} />
             <QuestionDisplay {...que}  />
         </div>
     );
@@ -12,41 +12,41 @@ const OneQuestion = ({que}) => {
 export default OneQuestion;
 
 
-const QuestionDisplay = ({id, title, description, tags, username, posted_at}) => {
+const MetaData = ({viewers, score, answer_count}) => {
     return (
-        <div className="w-[83%] flex flex-col px-2 items-start justify-start space-y-1">
-            <QuestionSpan title={title} id={id} />
-            <DescriptionSpan title={description} />
-            <TagSpan tags={tags} username={username} posted_at={posted_at} />
-        </div>
-    )
-}
-
-
-const TagSpan = ({tags, username, posted_at}) => {
-    return (
-        <div className="w-full flex flex-row justify-between items-center">
-            <div className="flex flex-row space-x-2 ">
-                {tags.map((tag, idx) => <TagStyle key={idx} tag={tag} /> )}
-            </div>
-            <span className="text-sm font-light">
-                {username} asked {posted_at}
-            </span>
+        <div className="w-[15%] px-5 flex flex-col items-end justify-start space-y-2">
+            <MetaDataSpan title={`${viewers} Views`} />
+            <MetaDataSpan title={`${score} Votes`} />
+            <MetaDataSpan title={`${answer_count} Answers`} />
         </div>
     );
 };
 
 const MetaDataSpan = ({title}) => <span className="text-sm font-medium">{title}</span>;
 
-const MetaData = () => {
+const QuestionDisplay = ({id, title, body, tags, user_id:{displayname}, created_at}) => {
     return (
-        <div className="w-[15%] px-5 flex flex-col items-end justify-start space-y-2">
-            <MetaDataSpan title={`${2+3} Votes`} />
-            <MetaDataSpan title={`${2+9} Answers`} />
-            <MetaDataSpan title={`${1309} Views`} />
+        <div className="w-[83%] flex flex-col px-2 items-start justify-start space-y-1">
+            <QuestionSpan title={title} id={id} />
+            <DescriptionSpan title={body} />
+            <TagSpan tags={tags} displayname={displayname} created_at={created_at} />
+        </div>
+    )
+};
+
+const TagSpan = ({tags, displayname, created_at}) => {
+    return (
+        <div className="w-full flex flex-row justify-between items-center">
+            <div className="flex flex-row space-x-2 ">
+                {tags.map((tag, idx) => <TagStyle key={idx} tag={tag} /> )}
+            </div>
+            <span className="text-sm font-light">
+                {displayname} asked on {created_at}
+            </span>
         </div>
     );
 };
+
 
 const QuestionSpan = ({title, id}) => {
     return (
