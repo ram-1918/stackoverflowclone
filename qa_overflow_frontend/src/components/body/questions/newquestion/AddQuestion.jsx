@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NewQuestionBaseLayout from "./NewQuestionBaseLayout";
 import NewQuestionHeader from "./NewQuestionHeader";
 import { APIURL } from "../../../../hooks/GetDataHook";
 import { useRecoilState } from "recoil";
-import { questionsData } from "../../../../recoil_state/state";
+import { activeItem, questionsData } from "../../../../recoil_state/state";
 import BaseButton from "../../../base/BaseButtons";
 import { usePostDataHook } from "../../../../hooks/PostDataHook";
 import { useNavigate } from "react-router-dom";
-// import NewQuestionHeader from "./NewQuestionHeader";
+import { BaseDiscardDraft, BaseVisiblityToggle } from "../../../base/Base";
+
+const template = {
+  title: "",
+  body1: "",
+  body2: "",
+  tags: "",
+  visibility: true,
+}
 
 export default function AddQuestion() {
   /*
@@ -17,35 +25,58 @@ export default function AddQuestion() {
   */
 
   const navigate = useNavigate();
-  const { data, isLoading, error, postData } = usePostDataHook();
-  const [questions, setQuestions] = useRecoilState(questionsData);
+  const { data, error, postData } = usePostDataHook(); // HOOK
+  const [, setQuestions] = useRecoilState(questionsData);
+  const [, setActiveItem] = useRecoilState(activeItem);
 
-  const [title, setTitle] = useState("");
-  const [details, setDetails] = useState("");
-  const [expected, setExpected] = useState("");
-  const [tags, setTags] = useState("");
+  useEffect(() => {
+    setActiveItem("questions");
+  }, []);
+
+  //Save to draft by default
+  const [draftCopy, setDraftCopy] = useState(() =>
+    localStorage.getItem("questiondraft")
+  );
+
+  const [newQuestion, setNewQuestion] = useState({
+    title: draftCopy ? JSON.parse(draftCopy)["title"] : "",
+    body1: draftCopy ? JSON.parse(draftCopy)["body1"] : "",
+    body2: draftCopy ? JSON.parse(draftCopy)["body2"] : "",
+    tags: draftCopy ? JSON.parse(draftCopy)["tags"] : "",
+    visibility: draftCopy ? JSON.parse(draftCopy)["visibility"] : true,
+  });
+
+  useEffect(() => {
+    const newQuestionStr = JSON.stringify(newQuestion);
+    setDraftCopy(newQuestionStr);
+    localStorage.setItem("questiondraft", newQuestionStr);
+  }, [newQuestion]);
 
   const handlePostNewQuestion = () => {
     const url = `${APIURL}questions/`;
+
     const newdata = {
-      user_id: 2,
-      title: title,
-      body: details + "\n" + expected,
-      tags: tags.split(","),
+      owner: 2,
+      title: newQuestion["title"],
+      body: newQuestion["body1"] + "\n" + newQuestion["body2"],
+      tags: newQuestion["tags"].split(","),
+      visibility: newQuestion["visibility"],
     };
 
     // Method that makes an API CALL which defined in PostDataHook
-    postData(url, newdata); 
+    postData(url, newdata);
 
-    // Update state questionData with the response from API Call
-    setQuestions((old) => ({
-      ...old,
-      count: old["count"] + 1,
-      items: [data, ...old["items"]],
-    }));
+    if (error === null) {
+      // Update state questionData with the response from API Call
+      // setQuestions((prev) => ({
+      //   ...prev,
+      //   count: prev["count"] + 1,
+      //   items: [data, ...prev["items"]],
+      // }));
 
-    // Navigate to the list of questions
-    navigate("/questions");
+      // Navigate to the list of questions
+      navigate("/features/questions");
+    }
   };
 
   return (
@@ -54,33 +85,60 @@ export default function AddQuestion() {
       <NewQuestionBaseLayout
         title="title"
         description="Be specific and imagine you’re asking a question to another person."
-        setInput={setTitle}
+        value={newQuestion["title"]}
+        setInput={setNewQuestion}
+        field="title"
       />
       <NewQuestionBaseLayout
         title="What are the details of your problem?"
         description="Introduce the problem and expand on what you put in the title. Minimum 20 characters."
-        setInput={setDetails}
+        value={newQuestion["body1"]}
+        setInput={setNewQuestion}
+        field="body1"
         editor={true}
       />
       <NewQuestionBaseLayout
         title="What did you try and what were you expecting?"
         description="Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters."
-        setInput={setExpected}
+        value={newQuestion["body2"]}
+        setInput={setNewQuestion}
+        field="body2"
         editor={true}
       />
       <NewQuestionBaseLayout
         title="Tags"
         description="Add up to 5 tags to describe what your question is about. Start typing to see suggestions."
-        setInput={setTags}
+        value={newQuestion["tags"]}
+        setInput={setNewQuestion}
+        field="tags"
       />
-      <BaseButton
-        onClick={() => handlePostNewQuestion()}
-        content="Post your question"
-        bg="green"
-        text="white"
-        width="9rem"
-        padding="0.6rem"
-      />
+      <NewQuestionBaseLayout
+        title="Visibility of the question"
+        description="By default it will be a public question, you can also make your question private now and post it confidently later."
+        visibilityQuestion={true}
+      >
+        <BaseVisiblityToggle
+          visibleMode={newQuestion["visibility"]}
+          onClick={() =>
+            setNewQuestion((prev) => ({
+              ...prev,
+              ["visibility"]: !prev["visibility"],
+            }))
+          }
+        />
+      </NewQuestionBaseLayout>
+      <div className="flex flex-row justify-start items-center space-x-4">
+        <BaseButton
+          onClick={() => handlePostNewQuestion()}
+          content="Post your question"
+          bg="green"
+          text="white"
+          width="9rem"
+          padding="0.6rem"
+        />
+        <BaseDiscardDraft draft_key="questiondraft" template={template} setFunc={setNewQuestion} />
+      </div>
+
       {/* <CheckIfDuplicated /> */}
     </div>
   );

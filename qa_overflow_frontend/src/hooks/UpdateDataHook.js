@@ -3,9 +3,9 @@ import { useState } from "react";
 
 export const APIURL = "http://127.0.0.1:8001/api/";
 
-export const usePostDataHook = () => {
+export const useUpdateDataHook = () => {
     /*
-    HTTP Method: POST
+    HTTP Method: PUT, PATCH
     Input: URL
     Returns: data, isLoading, error
     Description: Makes asynchronous API call using axios to retrieve data.
@@ -14,9 +14,9 @@ export const usePostDataHook = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const postData = async (url, newdata) => {
+    const updateData = async (url, newdata) => {
         try {
-            const response = await axios.post(url, newdata);
+            const response = await axios.patch(url, newdata);
             setData(response.data);
             setIsLoading(false);
         }
@@ -26,5 +26,5 @@ export const usePostDataHook = () => {
         }
     };
 
-    return {data, isLoading, error, postData};
+    return {data, isLoading, error, updateData};
 }

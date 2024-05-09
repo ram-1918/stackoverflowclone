@@ -10,7 +10,7 @@ from services.pagination import CustomPagination
 
 def processTags(data):
     tags = data.get("tags")
-    if tags:
+    if tags and tags != '':
         newtags = []
         for tag in tags:
             tagobj = Tags.objects.filter(name=tag).first()
@@ -37,9 +37,13 @@ class QuestionsAPIView(generics.ListCreateAPIView):
     
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
+        print(data, "step1")
         updatedData = processTags(data)
+        print(updatedData, "step2")
         ser = PostQuestionSerializer(data=updatedData)
+        print("data", "step3")
         ser.is_valid(raise_exception=True)
+        print("data", "step4")
         ser.save()
         '''
         Get New question's ID, to process response compatible with get request
@@ -47,6 +51,7 @@ class QuestionsAPIView(generics.ListCreateAPIView):
         '''
         id = ser.data["id"]
         obj = Questions.objects.filter(id=id).first()
+        print(obj, "step5")
         ser = ListQuestionSerializer(obj)
         return Response(ser.data, status=status.HTTP_201_CREATED)
     

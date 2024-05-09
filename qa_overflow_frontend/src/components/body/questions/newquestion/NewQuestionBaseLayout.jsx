@@ -1,15 +1,19 @@
 import TextEditor from "../../../base/TextEditor";
+import ToggleMode from "../support/ToggleMode";
 
-const NewQuestionBaseLayout = ({ title, description, setInput, editor=false }) => {
+const NewQuestionBaseLayout = ({ title, description, setInput, value, editor=false, field, visibilityQuestion, children }) => {
   return (
     <div className="w-full border border-gray-200 p-4 rounded-md shadow-sm flex flex-col justify-start items-start space-y-1 capitalize">
       <NewQuestionTitle title={title} />
       <NewQuestionDescription description={description} />
       {
-        editor ? 
-        <TextEditor setInput={setInput} /> :
-        <NewQuestionInput setInput={setInput} />
+        !visibilityQuestion && (
+          editor ? 
+          <TextEditor setInput={setInput} field={field} value={value} /> :
+          <NewQuestionInput setInput={setInput} field={field} value={value} />
+        )
       }
+      {children}
     </div>
   );
 };
@@ -24,11 +28,12 @@ const NewQuestionDescription = ({ description }) => {
   return <span className="text-sm font-light">{description}</span>;
 };
 
-const NewQuestionInput = ({ setInput }) => {
+const NewQuestionInput = ({ setInput, field, value }) => {
   return (
     <input
       type="text"
-      onChange={(e) => setInput(e.target.value)}
+      value={value}
+      onChange={(e) => setInput(prev => ({...prev, [field]: e.target.value}))}
       className="w-full outline-none p-1 border border-gray-300"
     />
   );

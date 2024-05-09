@@ -1,8 +1,9 @@
 export default function BaseButton({content, bg, border, text, width, padding, ...props}) {
+
     // Dynamic Styling overrides the style defined in the classname
     const dynamicStyle = {
         backgroundColor:bg, 
-        borderColor:border, 
+        borderColor:border,
         color:text, 
         width:width,
         padding: padding

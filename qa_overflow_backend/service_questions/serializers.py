@@ -8,8 +8,6 @@ from services.utils import convert_timestamp_into_epoch, epoch_to_readable
 
 from service_posts.models import Tags
 
-
-
 class PostQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Questions
@@ -20,7 +18,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     """
     StringRelatedField() is the result of __str__() method defined in the model class
     """
-    user_id = ListUserSerializer()
+    owner = ListUserSerializer()
     tags = serializers.StringRelatedField(many=True, read_only=True)
     viewers = serializers.SerializerMethodField()
     score = serializers.SerializerMethodField()
@@ -43,9 +41,10 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     def get_viewers(self, obj):
         # Further processing is required for manipulating - 
         # viewers str in the frontend
-        lst_str = obj.viewers
-        lst = lst_str.split(',')
-        return len(lst)
+        lst_obj = obj.viewers
+        if lst_obj == '':
+            return 0
+        return len(lst_obj.split(','))
     
     def get_score(self, obj):
         return obj.upvotes - obj.downvotes

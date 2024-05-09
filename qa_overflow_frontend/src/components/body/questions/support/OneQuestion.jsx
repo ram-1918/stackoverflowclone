@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-import { BaseAskedBy, BaseDisplayDate, BaseDisplayName, BaseGreenTick, BaseTagListDisplay } from "../../../base/Base";
+import { BaseAskedBy, BaseGreenTick, BaseTagListDisplay } from "../../../base/Base";
+import { nativeColors } from "../../../../recoil_state/state";
+import { useRecoilValue } from "recoil";
+import ToggleMode from "./ToggleMode";
 
 const OneQuestion = ({ que }) => {
   return (
@@ -12,12 +15,13 @@ const OneQuestion = ({ que }) => {
 
 export default OneQuestion;
 
-const MetaData = ({ viewers, score, answer_count, is_answered }) => {
+const MetaData = ({ id, owner, visibility, viewers, score, answer_count, is_answered }) => {
   return (
     <div className="py-1 w-[15%] px-5 flex flex-col items-end justify-start space-y-1">
       <MetaDataSpan title={`${viewers} Views`} />
       <MetaDataSpan title={`${score} Votes`} />
       <MetaDataSpan title={`${answer_count} Answers`} is_answered={is_answered}/>
+      {owner.id === 2 && <ToggleMode qid={id} visibility={visibility} />}
     </div>
   );
 };
@@ -28,7 +32,7 @@ const MetaDataSpan = ({ title, is_answered }) => {
         color: is_answered && "white"
     }
     return (
-        <span style={activeStyles} className={`${is_answered && "p-0.5 rounded"} text-[0.8rem] font-normal`}>
+        <span style={activeStyles} className={`${is_answered && "px-1 py-0.5 rounded"} text-[0.8rem] font-normal`}>
             {is_answered && <BaseGreenTick size="1rem" color="white" />} {title}
         </span>
     )
@@ -39,8 +43,8 @@ const QuestionDisplay = ({
   title,
   body,
   tags,
-  user_id: { displayname },
-  created_at,
+  owner: { displayname },
+  created_at
 }) => {
   return (
     <div className="w-[83%] flex flex-col px-2 items-start justify-start space-y-2">
@@ -61,8 +65,11 @@ const TagSpan = ({ tags, displayname, created_at }) => {
 };
 
 const QuestionSpan = ({ title, id }) => {
+  const native_colors = useRecoilValue(nativeColors);
+
   return (
     <Link
+      style={{color: native_colors['teal']['3']}}
       to={`/questions/${id}`}
       className="text-teal-600 text-lg font-normal cursor-pointer hover:opacity-80"
     >

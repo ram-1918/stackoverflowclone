@@ -70,6 +70,7 @@ tags: {
 
 
 ### React
+Enhancement: Reduce the number of API calls made.
 State management: Recoil library
 Recoil:
 1. Atom(): to create state value
