@@ -1,13 +1,15 @@
 // import { faFilter } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { questionsData } from "../../../../recoil_state/state";
 
 const QFilters = () => {
-    const questions = useRecoilState(questionsData);    // Retrieved from state
-    const count = questions.length;
-
+    const questions = useRecoilValue(questionsData);    // Retrieved from state
+    if (!questions){
+        return <div>Loading...</div>
+    }
+    const count = questions.count;
     return (
         <div className="p-2 w-full flex flex-row justify-between items-center">
             <DisplayCount count={count} title={count === 1 ? 'question': 'questions'} />

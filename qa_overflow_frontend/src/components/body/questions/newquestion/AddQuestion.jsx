@@ -10,12 +10,6 @@ import { useNavigate } from "react-router-dom";
 // import NewQuestionHeader from "./NewQuestionHeader";
 
 export default function AddQuestion() {
-  const [title, setTitle] = useState("");
-  const [details, setDetails] = useState("");
-  const [expected, setExpected] = useState("");
-  const [tags, setTags] = useState("");
-  const [questions, setQuestions] = useRecoilState(questionsData);
-
   /*
   1. API call to post answer
   2. Get response and store data into the questions in the state
@@ -24,29 +18,39 @@ export default function AddQuestion() {
 
   const navigate = useNavigate();
   const { data, isLoading, error, postData } = usePostDataHook();
+  const [questions, setQuestions] = useRecoilState(questionsData);
 
-  const handlePostingQuestion = () => {
+  const [title, setTitle] = useState("");
+  const [details, setDetails] = useState("");
+  const [expected, setExpected] = useState("");
+  const [tags, setTags] = useState("");
+
+  const handlePostNewQuestion = () => {
     const url = `${APIURL}questions/`;
-
     const newdata = {
       user_id: 2,
       title: title,
       body: details + "\n" + expected,
       tags: tags.split(","),
     };
-    console.log("posted", newdata, questions);
-    postData(url, newdata);    // Method to make API CALL defined in PostDataHook
+
+    // Method that makes an API CALL which defined in PostDataHook
+    postData(url, newdata); 
+
+    // Update state questionData with the response from API Call
     setQuestions((old) => ({
       ...old,
       count: old["count"] + 1,
       items: [data, ...old["items"]],
     }));
+
+    // Navigate to the list of questions
     navigate("/questions");
   };
 
   return (
     <div className="w-[80%] p-4 mb-4 space-y-4 border-l">
-      <NewQuestionHeader /> {questions.items.length}
+      <NewQuestionHeader />
       <NewQuestionBaseLayout
         title="title"
         description="Be specific and imagine you’re asking a question to another person."
@@ -70,14 +74,13 @@ export default function AddQuestion() {
         setInput={setTags}
       />
       <BaseButton
-        onClick={() => handlePostingQuestion()}
+        onClick={() => handlePostNewQuestion()}
         content="Post your question"
         bg="green"
         text="white"
         width="9rem"
         padding="0.6rem"
       />
-      {/* <PostButton  /> */}
       {/* <CheckIfDuplicated /> */}
     </div>
   );

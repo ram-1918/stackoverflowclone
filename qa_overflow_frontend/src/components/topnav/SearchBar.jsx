@@ -25,7 +25,7 @@ const SearchInput = ({setSearchText}) => {
         Process search text and set resultant data
     */
     return (
-        <div className="w-[30rem] h-8 flex flex-row justify-start items-center space-x-2 rounded-lg  border border-teal-400 bg-white">
+        <div className="w-[35rem] h-8 flex flex-row justify-start items-center space-x-2 rounded-lg  border border-teal-400 bg-white">
             <SearchIcon />
             <input 
             type="text" 
