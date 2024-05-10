@@ -2,6 +2,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { nativeColors } from "../../recoil_state/state";
 import { useRecoilValue } from "recoil";
+import { Link } from "react-router-dom";
 
 const OpenEye = () => (
   <FontAwesomeIcon icon={faEye} />
@@ -26,7 +27,7 @@ const BaseTagStyle = ({ tag }) => {
   return (
     <span
       style={{ backgroundColor: native_colors["teal"]["2"] }}
-      className="px-2 text-sm rounded-md bg-green-100"
+      className="px-2 text-sm text-teal-700 bg-teal-100"
     >
       {tag}
     </span>
@@ -34,6 +35,7 @@ const BaseTagStyle = ({ tag }) => {
 };
 
 export const BaseTagListDisplay = ({ tags }) => {
+  console.log(tags, 'Tags');
   return (
     <div className="flex flex-row space-x-2 flex-grow flex-wrap">
       {tags.map((tag, idx) => (
@@ -87,5 +89,11 @@ export const BaseDiscardDraft = ({draft_key, template, setFunc}) => {
     onClick={() => deleteFromDraft()}>
       Discard Draft
     </span>
+  )
+};
+
+export const BaseUtilLinks = ({text, to, icon}) => {
+  return (
+    <Link to={to} className="text-blue-500 cursor-pointer hover:opacity-80 text-xs">{icon} {text}</Link>
   )
 }

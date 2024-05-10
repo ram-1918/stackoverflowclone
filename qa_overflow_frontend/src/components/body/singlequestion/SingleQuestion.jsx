@@ -23,10 +23,27 @@ export default function SingleQuestion() {
     }, [data]);
 
     return (
-        <div className="border-l border-gray-200 w-full h-full p-4">>
+        <div className="border-l border-gray-200 w-full h-full p-4">
             <Title {...currentQuestion} />
-            <Description {...currentQuestion} />
-            {/* <FollowUp /> */}
+            <div className="flex flex-row space-x-2">
+                <div className="w-[80%] flex flex-col justify-start items-center space-y-2">
+                    <Description {...currentQuestion} />
+                    <div className="w-full flex flex-row justify-between items-center bg-gray-50 p-2 font-medium">
+                        <span className="w-full text-lg">{currentQuestion.answer_count} Answers</span>
+                        <span className="flex flex-row items-center justify-end w-full">
+                            Sorted by: <span className="border border-gray-300 h-full w-72 py-2 px-2 rounded-lg text-normal">Highest Score (default)</span>
+                        </span>
+                    </div>
+                    <Description {...currentQuestion} />
+                    <Description {...currentQuestion} />
+                    <Description {...currentQuestion} />
+                    {/* <FollowUp /> */}
+                </div>
+                <div className="w-[20%] flex flex-col justify-start items-center space-y-3">
+                    <span className="w-full h-96 bg-teal-100">Unanswered Questions</span>
+                    <span className="w-full h-96 bg-gray-200">Hot Questions</span>
+                </div>
+            </div>
         </div>
     );
 };

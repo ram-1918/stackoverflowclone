@@ -27,7 +27,7 @@ export default function Main() {
     }
 
     return (
-        <div style={{color: native_colors['gray']['4']}} className="h-screen mb-20 box-border font-sans text-[0.9rem] block">
+        <div style={{color: native_colors['gray']['4']}} className="h-full mb-20 box-border font-sans text-[0.9rem] block">
             <Topnav />
             <Outlet />
             {/* <Footer /> */}

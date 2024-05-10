@@ -68,6 +68,11 @@ tags: {
     name, count(to find most used tag and other purposes)
 }
 
+### To-Dos: Before Sunday
+1. public/private setup
+2. Viewed count
+3. Voting system
+4. Favorites system
 
 ### React
 Enhancement: Reduce the number of API calls made.
