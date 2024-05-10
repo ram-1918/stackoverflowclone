@@ -9,6 +9,7 @@ const QContent = () => {
   if (!questions) {
     return <Loading />;
   }
+  console.log("QContent", questions);
   return (
     <div className="w-full flex flex-col">
       {questions.items.map((que) => (

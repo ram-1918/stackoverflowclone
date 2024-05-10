@@ -16,7 +16,7 @@ export default function AllRoutes() {
                 <Route path="home" element={<Home />}></Route>
                 <Route path="features/" element={<Body />}>
                     <Route index path="questions" element={<Questions />}></Route>
-                    <Route path="questions/:id" element={<SingleQuestion />}></Route>
+                    <Route path="questions/:qid" element={<SingleQuestion />}></Route>
                     <Route path="questions/post-new-question" element={<AddQuestion />}></Route>
                     <Route path="tags" element={<TagsList />}></Route>
                     <Route path="users" element={<UsersList />}></Route>

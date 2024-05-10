@@ -1,5 +1,8 @@
 import { faCaretDown, faCaretUp, faHistory, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { nativeColors } from "../../../recoil_state/state";
+import { useRecoilValue } from "recoil";
+import { BaseDisplayName, Loading } from "../../base/Base";
 
 const CaretUpIcon = () => <FontAwesomeIcon icon={faCaretUp} />;
 const CaretDownIcon = () => <FontAwesomeIcon icon={faCaretDown} />;
@@ -37,44 +40,49 @@ const LeftDiv = () => {
     );
 };
 
-const InfoBox = () => {
+const InfoBox = ({owner:{displayname}, created_at}) => {
+    const native_colors = useRecoilValue(nativeColors);
     return (
-        <div className="flex flex-col justify-start items-start bg-blue-100 p-2 rounded-lg">
-            <span>asked Jun 27, 2012 at 13:51</span>
+        <div style={{backgroundColor: native_colors['teal']['1']}} className="flex flex-col justify-start items-start p-2 rounded-lg">
+            <span className="text-[0.8rem]">asked {created_at}</span>
             <div className="flex justify-start items-center space-x-2">
                 <span className="bg-red-400 flex justify-center items-center rounded-full w-8 h-8"><FontAwesomeIcon icon={faUser} className="text-lg" /></span>
                 <div className="flex flex-col justify-start items-start">
-                    <span>UserName</span>
+                    <BaseDisplayName displayname={displayname}/>
                     <span>500k - 53 - 501 - 548</span>
                 </div>
-            </div>
-        </div>
-    )
-}
-
-const RightDiv = ({description}) => {
-    return (
-        <div className="w-[90%] h-full flex flex-col justify-start items-center space-y-2">
-            <span className="leading-6 tracking-wide text-wrap whitespace-pre-wrap border-b border-gray-300 pb-2">
-                {description}
-            </span>
-            <div className="w-full flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-around items-center space-x-4">
-                    <span>Share</span>
-                    <span>Edit</span>
-                    <span>follow</span>
-                </div>
-                <InfoBox />
             </div>
         </div>
     );
 };
 
-export default function Description({description}) {
+const RightDiv = ({body, ...rest}) => {
+    if(!rest.owner) {
+        // Inorder to use nested data, we should let it load first.
+        return <div><Loading /></div>
+    }
+    return (
+        <div className="w-[90%] h-full flex flex-col justify-start items-center space-y-2 ">
+            <span className="leading-6 tracking-wide text-wrap whitespace-pre-wrap pb-2 border-b border-gray-300">
+                {body}
+            </span>
+            <div className="w-full flex flex-row justify-between items-center p-2">
+                <div className="flex flex-row justify-around items-center space-x-4">
+                    <span>Share</span>
+                    <span>Edit</span>
+                    <span>follow</span>
+                </div>
+                <InfoBox {...rest} />
+            </div>
+        </div>
+    );
+};
+
+export default function Description({...props}) {
     return (
         <div className="w-full h-full flex flex-row justify-center items-start py-4">
-            <LeftDiv />
-            <RightDiv description={description} />
+            <LeftDiv {...props} />
+            <RightDiv {...props} />
         </div>
     )
 }

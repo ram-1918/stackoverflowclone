@@ -10,6 +10,8 @@ const CloseEye = () => (
   <FontAwesomeIcon icon={faEyeSlash} />
 );
 
+export const Loading = () => <div>Loading...</div>;
+
 export const BaseDisplayName = ({ displayname }) => {
   // Dispalyname ~ Username
   return <span className="text-green-700 font-medium">{displayname}</span>;

@@ -70,7 +70,7 @@ const QuestionSpan = ({ title, id }) => {
   return (
     <Link
       style={{color: native_colors['teal']['3']}}
-      to={`/questions/${id}`}
+      to={`/features/questions/${id}`}
       className="text-teal-600 text-lg font-normal cursor-pointer hover:opacity-80"
     >
       {title}
