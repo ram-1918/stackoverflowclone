@@ -15,13 +15,14 @@ const OneQuestion = ({ que }) => {
 
 export default OneQuestion;
 
-const MetaData = ({ id, owner, visibility, viewers, score, answer_count, is_answered }) => {
+const MetaData = ({ id, owner, visibility, views, score, answer_count, is_answered }) => {
+  const current_user_id = 1;
   return (
     <div className="py-1 w-[15%] px-5 flex flex-col items-end justify-start space-y-1">
-      <MetaDataSpan title={`${viewers} Views`} />
+      <MetaDataSpan title={`${views} Views`} />
       <MetaDataSpan title={`${score} Votes`} />
       <MetaDataSpan title={`${answer_count} Answers`} is_answered={is_answered}/>
-      {owner.id === 2 && <ToggleMode qid={id} visibility={visibility} />}
+      {owner.id === current_user_id && <ToggleMode qid={id} visibility={visibility} />}
     </div>
   );
 };

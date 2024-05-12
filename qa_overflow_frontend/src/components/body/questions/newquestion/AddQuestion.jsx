@@ -56,7 +56,7 @@ export default function AddQuestion() {
     const url = `${APIURL}questions/`;
 
     const newdata = {
-      owner: 2,
+      owner: 1,
       title: newQuestion["title"],
       body: newQuestion["body1"] + "\n" + newQuestion["body2"],
       tags: newQuestion["tags"].split(","),

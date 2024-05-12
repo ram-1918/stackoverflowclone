@@ -30,7 +30,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Questions
-        exclude = ('upvotes', 'downvotes', 'viewers')
+        exclude = ('upvotes', 'downvotes')
 
     def get_created_at(self, obj):
         epoch = convert_timestamp_into_epoch(str(obj.created_at))
@@ -43,10 +43,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     def get_views(self, obj):
         # Further processing is required for manipulating - 
         # viewers str in the frontend
-        lst_obj = obj.viewers
-        if lst_obj == '':
-            return 0
-        return len(lst_obj.split(','))
+        return obj.viewers.count()
     
     def get_score(self, obj):
         return obj.upvotes - obj.downvotes

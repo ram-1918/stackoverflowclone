@@ -32,3 +32,8 @@ export const questionsData = atom({
     key: "questionsData",
     default: {}
 });
+
+export const votesData = atom({
+    key: "votesData",
+    default: {}
+});

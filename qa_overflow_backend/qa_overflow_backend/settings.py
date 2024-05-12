@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "service_posts",
     "service_users",
     "service_questions",
-    "service_answers"
+    "service_answers",
+    "service_votes"
 ]
 
 REST_FRAMEWORK = {

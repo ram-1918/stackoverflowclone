@@ -7,6 +7,7 @@ from .models import Questions
 from .serializers import ListQuestionSerializer, PostQuestionSerializer
 from service_posts.models import Tags
 from services.pagination import CustomPagination
+from django.db.models import Q
 
 def processTags(data):
     tags = data.get("tags")
@@ -33,7 +34,7 @@ class QuestionsAPIView(generics.ListCreateAPIView):
         return ListQuestionSerializer
 
     def get_queryset(self):
-        return self.queryset.order_by('-created_at')
+        return self.queryset.order_by('-created_at').filter(Q(visibility=True) | Q(owner=1))
     
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
@@ -64,3 +65,12 @@ class RetrieveQuestionAPIView(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method in ['PATCH', 'PUT']:
             return PostQuestionSerializer
         return ListQuestionSerializer
+    
+    def patch(self,request, pk, *args, **kwargs):
+        viewers = request.query_params.get('viewers', None)
+        if viewers:
+            queobj = Questions.objects.filter(id=pk).first()
+            queobj.viewers.add(viewers)
+            queobj.save()
+            return Response('View updated')
+        return super().patch(request, *args, **kwargs)

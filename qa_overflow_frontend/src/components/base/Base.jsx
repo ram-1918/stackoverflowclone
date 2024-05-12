@@ -35,7 +35,6 @@ const BaseTagStyle = ({ tag }) => {
 };
 
 export const BaseTagListDisplay = ({ tags }) => {
-  console.log(tags, 'Tags');
   return (
     <div className="flex flex-row space-x-2 flex-grow flex-wrap">
       {tags.map((tag, idx) => (

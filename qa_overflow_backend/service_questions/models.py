@@ -21,7 +21,7 @@ class Questions(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_activity = models.CharField(max_length=100, blank=True, default=timezone.now())
     
-    viewers = models.TextField(default='')
+    viewers = models.ManyToManyField(Users, related_name='viewers') # models.TextField(default='')
     favorite_count = models.IntegerField(default=0)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)

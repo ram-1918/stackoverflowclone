@@ -70,7 +70,7 @@ tags: {
 
 ### To-Dos: Before Sunday
 1. public/private setup
-2. Viewed count
+2. Viewed count: Many-many with users table
 3. Voting system
 4. Favorites system
 
