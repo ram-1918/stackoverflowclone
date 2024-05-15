@@ -30,7 +30,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Questions
-        exclude = ('upvotes', 'downvotes')
+        fields = '__all__'
 
     def get_created_at(self, obj):
         epoch = convert_timestamp_into_epoch(str(obj.created_at))

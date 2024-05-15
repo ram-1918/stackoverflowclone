@@ -1,12 +1,14 @@
 import AllRoutes from "./routing/AllRoutes";
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot } from "recoil";
 
 function App() {
+  console.log("App.js");
+  
   return (
     <RecoilRoot>
-      <AllRoutes />
+        <AllRoutes />
     </RecoilRoot>
-  )
+  );
 }
 
 export default App;

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import NewQuestionBaseLayout from "./NewQuestionBaseLayout";
-import NewQuestionHeader from "./NewQuestionHeader";
 import { APIURL } from "../../../../hooks/GetDataHook";
 import { useRecoilState } from "recoil";
 import { activeItem, questionsData } from "../../../../recoil_state/state";
-import BaseButton from "../../../base/BaseButtons";
 import { usePostDataHook } from "../../../../hooks/PostDataHook";
 import { useNavigate } from "react-router-dom";
 import { BaseDiscardDraft, BaseVisiblityToggle } from "../../../base/Base";
+import NewQuestionBaseLayout from "./NewQuestionBaseLayout";
+import NewQuestionHeader from "./NewQuestionHeader";
+import BaseButton from "../../../base/BaseButtons";
 
 const template = {
   title: "",
@@ -68,11 +68,11 @@ export default function AddQuestion() {
 
     if (error === null) {
       // Update state questionData with the response from API Call
-      // setQuestions((prev) => ({
-      //   ...prev,
-      //   count: prev["count"] + 1,
-      //   items: [data, ...prev["items"]],
-      // }));
+      setQuestions((prev) => ({
+        ...prev,
+        count: prev["count"] + 1,
+        items: [data, ...prev["items"]],
+      }));
 
       // Navigate to the list of questions
       navigate("/features/questions");

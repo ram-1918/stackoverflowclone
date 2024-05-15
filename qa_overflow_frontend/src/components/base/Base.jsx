@@ -11,7 +11,7 @@ const CloseEye = () => (
   <FontAwesomeIcon icon={faEyeSlash} />
 );
 
-export const Loading = () => <div>Loading...</div>;
+export const Loading = ({text}) => <div>{text}...</div>;
 
 export const BaseDisplayName = ({ displayname }) => {
   // Dispalyname ~ Username

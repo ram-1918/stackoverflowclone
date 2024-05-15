@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { BaseAskedBy, BaseGreenTick, BaseTagListDisplay } from "../../../base/Base";
-import { nativeColors } from "../../../../recoil_state/state";
+import { currentUser, nativeColors } from "../../../../recoil_state/state";
 import { useRecoilValue } from "recoil";
 import ToggleMode from "./ToggleMode";
 
@@ -16,7 +16,7 @@ const OneQuestion = ({ que }) => {
 export default OneQuestion;
 
 const MetaData = ({ id, owner, visibility, views, score, answer_count, is_answered }) => {
-  const current_user_id = 1;
+  const current_user_id = useRecoilValue(currentUser);
   return (
     <div className="py-1 w-[15%] px-5 flex flex-col items-end justify-start space-y-1">
       <MetaDataSpan title={`${views} Views`} />
@@ -56,15 +56,6 @@ const QuestionDisplay = ({
   );
 };
 
-const TagSpan = ({ tags, displayname, created_at }) => {
-  return (
-    <div className="w-full flex flex-row justify-between items-end flex-wrap">
-        <BaseTagListDisplay tags={tags} />
-        <BaseAskedBy displayname={displayname} date={created_at} />
-    </div>
-  );
-};
-
 const QuestionSpan = ({ title, id }) => {
   const native_colors = useRecoilValue(nativeColors);
 
@@ -82,3 +73,13 @@ const QuestionSpan = ({ title, id }) => {
 const DescriptionSpan = ({ title }) => (
   <span className="text-md font-light text-ellipsis">{title.slice(0, 150)}</span>
 );
+
+
+const TagSpan = ({ tags, displayname, created_at }) => {
+  return (
+    <div className="w-full flex flex-row justify-between items-end flex-wrap">
+        <BaseTagListDisplay tags={tags} />
+        <BaseAskedBy displayname={displayname} date={created_at} />
+    </div>
+  );
+};

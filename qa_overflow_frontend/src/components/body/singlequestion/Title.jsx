@@ -1,11 +1,16 @@
+import { useRecoilValue } from "recoil";
+import { questionsData } from "../../../recoil_state/state";
 import BaseButton from "../../base/BaseButtons";
+import { Loading } from "../../base/Base";
 
-export default function Title({title, ...rest}) {
+export default function Title({ qid }) {
+    const question = useRecoilValue(questionsData).items.filter(item => item.id === parseInt(qid))?.[0];
+
     return (
         <div className="flex flex-row justify-between items-center border-b border-gray-300 pb-3">
             <div className="w-[85%] space-y-2">
-                <span className="font-normal text-2xl">{title}</span>
-                <MetaData {...rest} />
+                <span className="font-normal text-2xl">{question ? question.title : 'No question'}</span>
+                {question ? <MetaData {...question} /> : <Loading text="Loading meta data" />}
             </div>
             <BaseButton content="Ask Question" padding="0.5rem" bg="teal" text="white" />
         </div>
