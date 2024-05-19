@@ -2,8 +2,10 @@ import { useRecoilValue } from "recoil";
 import { questionsData } from "../../../recoil_state/state";
 import BaseButton from "../../base/BaseButtons";
 import { Loading } from "../../base/Base";
+import { useParams } from "react-router-dom";
 
-export default function Title({ qid }) {
+export default function QuestionDetailHeader() {
+    const {qid } = useParams();
     const question = useRecoilValue(questionsData).items.filter(item => item.id === parseInt(qid))?.[0];
 
     return (

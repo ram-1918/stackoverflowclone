@@ -1,19 +1,18 @@
 import { Link } from "react-router-dom";
-import { BaseAskedBy, BaseGreenTick, BaseTagListDisplay } from "../../../base/Base";
-import { currentUser, nativeColors } from "../../../../recoil_state/state";
+import { BaseAskedBy, BaseGreenTick, BaseTagListDisplay } from "../../base/Base";
+import { currentUser, nativeColors } from "../../../recoil_state/state";
 import { useRecoilValue } from "recoil";
 import ToggleMode from "./ToggleMode";
 
-const OneQuestion = ({ que }) => {
+export default function QuestionCard({ que }) {
   return (
     <div className="py-3 w-full flex flex-row border-b border-gray-200">
       <MetaData {...que} />
-      <QuestionDisplay {...que} />
+      <QuestionData {...que} />
     </div>
   );
 };
 
-export default OneQuestion;
 
 const MetaData = ({ id, owner, visibility, views, score, answer_count, is_answered }) => {
   const current_user_id = useRecoilValue(currentUser);
@@ -21,13 +20,13 @@ const MetaData = ({ id, owner, visibility, views, score, answer_count, is_answer
     <div className="py-1 w-[15%] px-5 flex flex-col items-end justify-start space-y-1">
       <MetaDataSpan title={`${views} Views`} />
       <MetaDataSpan title={`${score} Votes`} />
-      <MetaDataSpan title={`${answer_count} Answers`} is_answered={is_answered}/>
+      <MetaDataSpan title={`${answer_count} Answers`} is_answered={is_answered} />
       {owner.id === current_user_id && <ToggleMode qid={id} visibility={visibility} />}
     </div>
   );
 };
 
-const MetaDataSpan = ({ title, is_answered }) => {
+const MetaDataSpan = ({ title, is_answered=false }) => {
     const activeStyles = {
         backgroundColor: is_answered && "green", 
         color: is_answered && "white"
@@ -39,7 +38,7 @@ const MetaDataSpan = ({ title, is_answered }) => {
     )
 }
 
-const QuestionDisplay = ({
+const QuestionData = ({
   id,
   title,
   body,
@@ -49,14 +48,14 @@ const QuestionDisplay = ({
 }) => {
   return (
     <div className="w-[83%] flex flex-col px-2 items-start justify-start space-y-2">
-      <QuestionSpan title={title} id={id} />
-      <DescriptionSpan title={body} />
+      <QuestionDataSpan title={title} id={id} />
+      <DescriptionSpan text={body} />
       <TagSpan tags={tags} displayname={displayname} created_at={created_at} />
     </div>
   );
 };
 
-const QuestionSpan = ({ title, id }) => {
+const QuestionDataSpan = ({ title, id }) => {
   const native_colors = useRecoilValue(nativeColors);
 
   return (
@@ -70,8 +69,8 @@ const QuestionSpan = ({ title, id }) => {
   );
 };
 
-const DescriptionSpan = ({ title }) => (
-  <span className="text-md font-light text-ellipsis">{title.slice(0, 150)}</span>
+const DescriptionSpan = ({ text }) => (
+  <span className="text-md font-light text-ellipsis">{text.slice(0, 150)}</span>
 );
 
 

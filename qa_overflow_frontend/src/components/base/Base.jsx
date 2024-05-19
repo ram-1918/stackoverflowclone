@@ -1,8 +1,9 @@
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { nativeColors } from "../../recoil_state/state";
 import { useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
+import { CaretDownIcon, CaretUpIcon } from "./BaseIcons";
 
 const OpenEye = () => (
   <FontAwesomeIcon icon={faEye} />
@@ -52,6 +53,56 @@ export const BaseAskedBy = ({ displayname, date }) => {
     </span>
   );
 };
+
+export const BaseUserInfoCard = ({ owner: { displayname }, created_at }) => {
+  const native_colors = useRecoilValue(nativeColors);
+  return (
+    <div
+      style={{ backgroundColor: native_colors["teal"]["1"] }}
+      className="flex flex-col justify-start items-start p-2 rounded-lg shadow"
+    >
+      <span className="text-[0.8rem]">asked {created_at}</span>
+      <div className="flex justify-start items-center space-x-2">
+        <span className="bg-red-400 flex justify-center items-center rounded-full w-8 h-8">
+          <FontAwesomeIcon icon={faUser} className="text-lg" />
+        </span>
+        <div className="flex flex-col justify-start items-start">
+          <BaseDisplayName displayname={displayname} />
+          <span>500k - 53 - 501 - 548</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const activeColor = "rgb(243 244 246)";
+
+const caretStyle =
+  "w-10 h-10 rounded-full shadow border cursor-pointer border-gray-200 flex justify-center items-center text-xl";
+
+export const CaretUpSpan = ({ voted, ...rest }) => {
+    return (
+      <span
+        {...rest}
+        style={{ backgroundColor: voted === "upvote" && activeColor }}
+        className={caretStyle}
+      >
+        {<CaretUpIcon />}
+      </span>
+    );
+  };
+  
+export const CaretDownSpan = ({ voted, ...rest }) => {
+    return (
+      <span
+        {...rest}
+        style={{ backgroundColor: voted === "downvote" && activeColor }}
+        className={caretStyle}
+      >
+        {<CaretDownIcon />}
+      </span>
+    );
+  };
 
 export const BaseGreenTick = ({ size, color }) => (
   <span>

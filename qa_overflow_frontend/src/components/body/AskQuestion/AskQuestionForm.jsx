@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { APIURL } from "../../../../hooks/GetDataHook";
+import { APIURL } from "../../../hooks/GetDataHook";
 import { useRecoilState } from "recoil";
-import { activeItem, questionsData } from "../../../../recoil_state/state";
-import { usePostDataHook } from "../../../../hooks/PostDataHook";
+import { activeItem, questionsData } from "../../../recoil_state/state";
+import { usePostDataHook } from "../../../hooks/PostDataHook";
 import { useNavigate } from "react-router-dom";
-import { BaseDiscardDraft, BaseVisiblityToggle } from "../../../base/Base";
-import NewQuestionBaseLayout from "./NewQuestionBaseLayout";
-import NewQuestionHeader from "./NewQuestionHeader";
-import BaseButton from "../../../base/BaseButtons";
+import { BaseDiscardDraft, BaseVisiblityToggle } from "../../base/Base";
+import AskQuestionBaseLayout from "./AskQuestionBaseLayout";
+import NewQuestionHeader from "./AskQuestionHeader";
+import BaseButton from "../../base/BaseButtons";
 
 const template = {
   title: "",
@@ -15,9 +15,9 @@ const template = {
   body2: "",
   tags: "",
   visibility: true,
-}
+};
 
-export default function AddQuestion() {
+export default function AskQuestionForm() {
   /*
   1. API call to post answer
   2. Get response and store data into the questions in the state
@@ -33,11 +33,13 @@ export default function AddQuestion() {
     setActiveItem("questions");
   }, []);
 
-  //Save to draft by default
+  // Create a state for managing drafts
   const [draftCopy, setDraftCopy] = useState(() =>
     localStorage.getItem("questiondraft")
   );
 
+
+  // Create a state for managing the question inputs, initialized with draft copy
   const [newQuestion, setNewQuestion] = useState({
     title: draftCopy ? JSON.parse(draftCopy)["title"] : "",
     body1: draftCopy ? JSON.parse(draftCopy)["body1"] : "",
@@ -46,6 +48,7 @@ export default function AddQuestion() {
     visibility: draftCopy ? JSON.parse(draftCopy)["visibility"] : true,
   });
 
+  // Detects changes made to question inputs and saves them as draft
   useEffect(() => {
     const newQuestionStr = JSON.stringify(newQuestion);
     setDraftCopy(newQuestionStr);
@@ -70,8 +73,8 @@ export default function AddQuestion() {
       // Update state questionData with the response from API Call
       setQuestions((prev) => ({
         ...prev,
-        count: prev["count"] + 1,
-        items: [data, ...prev["items"]],
+        count: prev.count + 1,
+        items: [data, ...prev.items],
       }));
 
       // Navigate to the list of questions
@@ -82,14 +85,14 @@ export default function AddQuestion() {
   return (
     <div className="w-[80%] p-4 mb-4 space-y-4 border-l">
       <NewQuestionHeader />
-      <NewQuestionBaseLayout
+      <AskQuestionBaseLayout
         title="title"
         description="Be specific and imagine you’re asking a question to another person."
         value={newQuestion["title"]}
         setInput={setNewQuestion}
         field="title"
       />
-      <NewQuestionBaseLayout
+      <AskQuestionBaseLayout
         title="What are the details of your problem?"
         description="Introduce the problem and expand on what you put in the title. Minimum 20 characters."
         value={newQuestion["body1"]}
@@ -97,7 +100,7 @@ export default function AddQuestion() {
         field="body1"
         editor={true}
       />
-      <NewQuestionBaseLayout
+      <AskQuestionBaseLayout
         title="What did you try and what were you expecting?"
         description="Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters."
         value={newQuestion["body2"]}
@@ -105,14 +108,14 @@ export default function AddQuestion() {
         field="body2"
         editor={true}
       />
-      <NewQuestionBaseLayout
+      <AskQuestionBaseLayout
         title="Tags"
         description="Add up to 5 tags to describe what your question is about. Start typing to see suggestions."
         value={newQuestion["tags"]}
         setInput={setNewQuestion}
         field="tags"
       />
-      <NewQuestionBaseLayout
+      <AskQuestionBaseLayout
         title="Visibility of the question"
         description="By default it will be a public question, you can also make your question private now and post it confidently later."
         visibilityQuestion={true}
@@ -126,7 +129,7 @@ export default function AddQuestion() {
             }))
           }
         />
-      </NewQuestionBaseLayout>
+      </AskQuestionBaseLayout>
       <div className="flex flex-row justify-start items-center space-x-4">
         <BaseButton
           onClick={() => handlePostNewQuestion()}
@@ -136,7 +139,11 @@ export default function AddQuestion() {
           width="9rem"
           padding="0.6rem"
         />
-        <BaseDiscardDraft draft_key="questiondraft" template={template} setFunc={setNewQuestion} />
+        <BaseDiscardDraft
+          draft_key="questiondraft"
+          template={template}
+          setFunc={setNewQuestion}
+        />
       </div>
 
       {/* <CheckIfDuplicated /> */}

@@ -3,10 +3,10 @@ import {
   activeFilterItem,
   nativeColors,
   questionsData,
-} from "../../../../recoil_state/state";
-import { Loading } from "../../../base/Base";
+} from "../../../recoil_state/state";
+import { Loading } from "../../base/Base";
 
-export default function QFilters() {
+export default function QuestionFilters() {
   const questions = useRecoilValue(questionsData); // Retrieved from state
   return (
     <div className="p-2 w-full flex flex-row justify-between items-center">

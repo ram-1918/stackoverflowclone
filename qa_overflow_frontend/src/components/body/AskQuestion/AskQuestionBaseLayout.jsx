@@ -1,34 +1,31 @@
-import TextEditor from "../../../base/TextEditor";
-import ToggleMode from "../support/ToggleMode";
+import TextEditor from "../../base/TextEditor";
 
-const NewQuestionBaseLayout = ({ title, description, setInput, value, editor=false, field, visibilityQuestion, children }) => {
+export default function AskQuestionBaseLayout({ title, description, setInput, value, editor=false, field, visibilityQuestion, children }) {
   return (
     <div className="w-full border border-gray-200 p-4 rounded-md shadow-sm flex flex-col justify-start items-start space-y-1 capitalize">
-      <NewQuestionTitle title={title} />
-      <NewQuestionDescription description={description} />
+      <AskQuestionTitle title={title} />
+      <AskQuestionDescription description={description} />
       {
         !visibilityQuestion && (
           editor ? 
           <TextEditor setInput={setInput} field={field} value={value} /> :
-          <NewQuestionInput setInput={setInput} field={field} value={value} />
+          <AskQuestionInput setInput={setInput} field={field} value={value} />
         )
       }
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default NewQuestionBaseLayout;
-
-const NewQuestionTitle = ({ title }) => {
+const AskQuestionTitle = ({ title }) => {
   return <span className="text-lg font-medium">{title}</span>;
 };
 
-const NewQuestionDescription = ({ description }) => {
+const AskQuestionDescription = ({ description }) => {
   return <span className="text-sm font-light">{description}</span>;
 };
 
-const NewQuestionInput = ({ setInput, field, value }) => {
+const AskQuestionInput = ({ setInput, field, value }) => {
   return (
     <input
       type="text"

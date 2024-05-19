@@ -1,4 +1,4 @@
-export default function Separator({...currentQuestion}) {
+export default function AnswersBeginHeader({...currentQuestion}) {
     return (
         <div className="w-full flex flex-row justify-between items-center bg-gray-50 p-2 font-medium">
             <AnswerCountDiv {...currentQuestion} />

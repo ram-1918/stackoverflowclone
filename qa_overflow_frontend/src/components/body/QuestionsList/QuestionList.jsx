@@ -1,9 +1,9 @@
-import OneQuestion from "./OneQuestion";
+import OneQuestion from "./QuestionCard";
 import { useRecoilValue } from "recoil";
-import { questionsData } from "../../../../recoil_state/state";
-import { Loading } from "../../../base/Base";
+import { questionsData } from "../../../recoil_state/state";
+import { Loading } from "../../base/Base";
 
-const QContent = () => {
+const QuestionList = () => {
   const questions = useRecoilValue(questionsData); // Retrieved from state
   return (
     <div className="w-full flex flex-col">
@@ -16,4 +16,4 @@ const QContent = () => {
   );
 };
 
-export default QContent;
+export default QuestionList;

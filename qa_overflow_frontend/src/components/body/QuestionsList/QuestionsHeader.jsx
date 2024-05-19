@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom";
-import { nativeColors } from "../../../../recoil_state/state";
+import { nativeColors } from "../../../recoil_state/state";
 import { useRecoilValue } from "recoil";
 
-export default function QHeader() {
+export default function QuestionsHeader() {
   return (
     <div className="p-2 w-full flex flex-row justify-between items-center">
       <span className="font-medium text-3xl">All Questions</span>
-      <AddQuestionButton />
+      <AskQuestionButton />
     </div>
   );
 }
 
-const AddQuestionButton = () => {
+const AskQuestionButton = () => {
   const native_colors = useRecoilValue(nativeColors);
   return (
     <Link

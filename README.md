@@ -86,3 +86,19 @@ Recoil:
 6. React.Suspense with a fallback is used to handle pending data
 7. Implement error handling by throwing response.error in selector()
 8. SelectorFamily(): to implement queries with parameters
+
+
+### Text Editor with Slate js
+Steps:
+1. Install slate: npm install slate slate-react
+2. Import slate editor factory and its components: 
+    > import { createEditor } from 'slate';
+    > import { Slate, Editable, withReact } from 'slate-react';
+3. Create editor:
+    > const [editor] = useState(() => withReact(createEditor()))
+    > Initialize with an json object
+4. <Slate editor={editor} initialValue={initialValue} /> : as a context provider, it provides values to its child components
+5. onKeyDown(e => if(e.key === '&') editor.insertText('and'))
+6. preventDefault(): prevents the character from being inserted
+7. Editor: editor.insertText()
+8. Custom elements: DefaultElement, CodeElement components

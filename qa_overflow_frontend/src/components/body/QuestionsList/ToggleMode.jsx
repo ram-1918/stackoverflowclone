@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { APIURL, useUpdateDataHook } from "../../../../hooks/UpdateDataHook";
-import { BaseVisiblityToggle } from "../../../base/Base";
+import { APIURL, useUpdateDataHook } from "../../../hooks/UpdateDataHook";
+import { BaseVisiblityToggle } from "../../base/Base";
 
 
 const ToggleMode = ({ qid, visibility }) => {
